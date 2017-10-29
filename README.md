@@ -1,10 +1,2 @@
 # TankBattle
-Open World 1-on-1 Tank Battle Game
-
----
-
-To-Do List:
-
-* Create simple world
-* Create simple tank/movement
-* Create Something
+This game is something I'm creating as part of a course on Udemy. The course involves 4 games in total to be made, each one more progressively more complex.
