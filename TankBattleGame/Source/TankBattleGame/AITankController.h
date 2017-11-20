@@ -3,14 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TankPawn.h"
 #include "Engine/World.h"
 #include "AIController.h"
 #include "AITankController.generated.h"
 
-/**
- * 
- */
+class ATankPawn;
+
 UCLASS()
 class TANKBATTLEGAME_API AAITankController : public AAIController
 {
@@ -22,4 +20,5 @@ public:
 private:
 	ATankPawn *GetControlledTank() const;
 	ATankPawn *GetPlayerTank() const;
+	void SendAimLoc();
 };

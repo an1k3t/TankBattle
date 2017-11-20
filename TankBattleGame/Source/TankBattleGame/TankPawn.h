@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "TankAimingComponent.h"
 #include "TankPawn.generated.h"
+
+class UTankAimingComponent;
+class UMeshBarrel;
 
 UCLASS()
 class TANKBATTLEGAME_API ATankPawn : public APawn
@@ -15,19 +17,18 @@ class TANKBATTLEGAME_API ATankPawn : public APawn
 public:
 	// Sets default values for this pawn's properties
 	ATankPawn();
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	//Sets the turret reference, via TankAimingComponent
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurret(UStaticMeshComponent *TurretToSet);
 	//Sets the barrel reference, via TankAimingComponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrel(UStaticMeshComponent *BarrelToSet);
+		void SetBarrel(UMeshBarrel *BarrelToSet);
+	void SetAimInfo(FVector);
 private:
-	//Pointer to effeciently access TankAimingComponent
+	//Pointers
 	UTankAimingComponent *TankAimingComponent = nullptr;
-	float CurShotVelocity;
-	float ShotForce = 5000;
-	FVector ShotStartLoc;
 };

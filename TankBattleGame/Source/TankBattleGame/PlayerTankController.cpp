@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "PlayerTankController.h"
+#include "TankPawn.h"
 
 APlayerTankController::APlayerTankController()
 {
@@ -18,19 +19,13 @@ void APlayerTankController::BeginPlay()
 void APlayerTankController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	AimCannon();
+	GetAimInfo();
 }
 
 //Acquires the pawn of the player
 ATankPawn *APlayerTankController::GetControlledTank() const
 {
 	return Cast<ATankPawn>(GetPawn());
-}
-
-//Moves turret and barrel appropriately to aim at crosshair
-void APlayerTankController::AimCannon()
-{
-	FVector HitLoc = GetAimInfo().Location;
 }
 
 //Acquire aim information
@@ -54,6 +49,9 @@ FHitResult APlayerTankController::GetAimInfo() const
 	CannonRange = RayStartLoc + (RayEndLoc * RangeLimit);
 	//Creates raycast for aiming
 	GetWorld()->LineTraceSingleByChannel(Hit, RayStartLoc, CannonRange, ECollisionChannel::ECC_Visibility);
+
+	//Sends location info of where player is aiming to TankPawn class
+	GetControlledTank()->SetAimInfo(Hit.Location);
 
 	return Hit;
 }

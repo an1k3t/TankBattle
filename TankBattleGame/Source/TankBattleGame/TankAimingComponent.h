@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+class UMeshBarrel;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKBATTLEGAME_API UTankAimingComponent : public UActorComponent
@@ -19,8 +21,19 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	//Pointers
+	UMeshBarrel *Barrel = nullptr;
+	UStaticMeshComponent *Turret = nullptr;
 	//Sets the barrel pointer
-	void SetBarrel(UStaticMeshComponent *BarrelToSet);
+	void SetBarrel(UMeshBarrel *BarrelToSet);
+	//Sets the turret pointer
+	void SetTurret(UStaticMeshComponent *TurretToSet);
+	//Aims the cannon
+	void CalcProjectile(FVector);
 private:
-	UStaticMeshComponent *Barrel;
+	//Variables
+	FVector CurShotVelocity;
+	float ShotForce = 10000;
+	FVector ShotStartLoc;
+	float ElevationDirection;
 };
