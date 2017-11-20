@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "MeshBarrel.h"
 #include "MeshTurret.h"
+#include "Math/UnrealMathUtility.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -50,7 +51,8 @@ void UTankAimingComponent::CalcProjectile(FVector AimLocation)
 	//Determines the direction the barrel needs to move 1 = up, -1 = down
 	auto BarrelDirDiff = CurAimDirection - CurBarrelDirection;
 	if ((BarrelDirDiff.Pitch) >= 1.0f) { ElevationDirection = 1.0f; }
-	else { ElevationDirection = -1.0f; }
+	else  if ((BarrelDirDiff.Pitch) <= -1.0f) { ElevationDirection = -1.0f; }
+	else { ElevationDirection = 0.0f; }
 	//Adjusts barrel elevation acording to where crosshair is pointing
 	Barrel->AimBarrel(ElevationDirection);
 	//Acquires and stores the current turret direction
@@ -58,7 +60,10 @@ void UTankAimingComponent::CalcProjectile(FVector AimLocation)
 	//Determines the direction the turret needs to move 1 = right, -1 = left
 	auto TurretDirDiff = CurAimDirection - CurTurretDirection;
 	if ((TurretDirDiff.Yaw) >= 1.0f) { TurnDirection = 1.0f; }
-	else { TurnDirection = -1.0f; }
+	else  if ((TurretDirDiff.Yaw) <= -1.0f) { TurnDirection = -1.0f; }
+	else { TurnDirection = 0.0f; }
 	//Adjusts turret rotation acording to where crosshair is pointing
-	Turret->AimTurret(TurnDirection);
+	if (FMath::Abs(TurretDirDiff.Yaw) < 180) { Turret->AimTurret(TurnDirection); }
+	else { Turret->AimTurret(-TurnDirection); }
+
 }

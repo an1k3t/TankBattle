@@ -14,5 +14,5 @@ class TANKBATTLEGAME_API UMeshTurret : public UStaticMeshComponent
 public:
 	void AimTurret(float);
 private:
-	float TurnSpeed = 45.0f;
+	float TurnSpeed = 35.0f;
 };
