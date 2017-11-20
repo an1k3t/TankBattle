@@ -4,17 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
-#include "MeshBarrel.generated.h"
+#include "MeshTurret.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class TANKBATTLEGAME_API UMeshBarrel : public UStaticMeshComponent
+class TANKBATTLEGAME_API UMeshTurret : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-
+	
 public:
-	void AimBarrel(float);
+	void AimTurret(float);
 private:
-	float ElevationSpeed = 5.0f;
-	float MaxElevation = 50.0f;
-	float MinElevation = 0.0f;
+	float TurnSpeed = 45.0f;
 };

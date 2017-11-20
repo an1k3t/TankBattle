@@ -8,6 +8,7 @@
 
 class UTankAimingComponent;
 class UMeshBarrel;
+class UMeshTurret;
 
 UCLASS()
 class TANKBATTLEGAME_API ATankPawn : public APawn
@@ -23,7 +24,7 @@ public:
 	virtual void BeginPlay() override;
 	//Sets the turret reference, via TankAimingComponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetTurret(UStaticMeshComponent *TurretToSet);
+		void SetTurret(UMeshTurret *TurretToSet);
 	//Sets the barrel reference, via TankAimingComponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrel(UMeshBarrel *BarrelToSet);

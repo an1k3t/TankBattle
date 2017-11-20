@@ -3,6 +3,7 @@
 #include "TankPawn.h"
 #include "TankAimingComponent.h"
 #include "MeshBarrel.h"
+#include "MeshTurret.h"
 
 // Sets default values
 ATankPawn::ATankPawn()
@@ -27,7 +28,7 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 
 //Delegates the act of seeting the turret ref to TankAimingComponet
-void ATankPawn::SetTurret(UStaticMeshComponent *TurretToSet)
+void ATankPawn::SetTurret(UMeshTurret *TurretToSet)
 {
 	TankAimingComponent->SetTurret(TurretToSet);
 }

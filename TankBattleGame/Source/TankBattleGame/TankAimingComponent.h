@@ -8,6 +8,7 @@
 #include "TankAimingComponent.generated.h"
 
 class UMeshBarrel;
+class UMeshTurret;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKBATTLEGAME_API UTankAimingComponent : public UActorComponent
@@ -23,17 +24,17 @@ public:
 	virtual void BeginPlay() override;
 	//Pointers
 	UMeshBarrel *Barrel = nullptr;
-	UStaticMeshComponent *Turret = nullptr;
+	UMeshTurret *Turret = nullptr;
 	//Sets the barrel pointer
 	void SetBarrel(UMeshBarrel *BarrelToSet);
 	//Sets the turret pointer
-	void SetTurret(UStaticMeshComponent *TurretToSet);
-	//Aims the cannon
+	void SetTurret(UMeshTurret *TurretToSet);
+	//Calculates projectile path
 	void CalcProjectile(FVector);
 private:
-	//Variables
 	FVector CurShotVelocity;
 	float ShotForce = 10000;
 	FVector ShotStartLoc;
 	float ElevationDirection;
+	float TurnDirection;
 };

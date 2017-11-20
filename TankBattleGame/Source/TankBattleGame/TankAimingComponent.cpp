@@ -3,6 +3,7 @@
 #include "TankAimingComponent.h"
 #include "GameFramework/Actor.h"
 #include "MeshBarrel.h"
+#include "MeshTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -29,8 +30,8 @@ void UTankAimingComponent::SetBarrel(UMeshBarrel *BarrelToSet)
 	Barrel = BarrelToSet;
 }
 
-//Sets the barrel pointer
-void UTankAimingComponent::SetTurret(UStaticMeshComponent *TurretToSet)
+//Sets the turret pointer
+void UTankAimingComponent::SetTurret(UMeshTurret *TurretToSet)
 {
 	Turret = TurretToSet;
 }
@@ -47,15 +48,17 @@ void UTankAimingComponent::CalcProjectile(FVector AimLocation)
 	//Aquires and stores the current direction of the barrel
 	auto CurBarrelDirection = Barrel->GetForwardVector().Rotation();
 	//Determines the direction the barrel needs to move 1 = up, -1 = down
-	auto DirectionDifference = CurAimDirection - CurBarrelDirection;
-	if ((DirectionDifference.Pitch) > 1.0f)
-	{
-		ElevationDirection = 1.0f;
-	}
-	else
-	{
-		ElevationDirection = -1.0f;
-	}
+	auto BarrelDirDiff = CurAimDirection - CurBarrelDirection;
+	if ((BarrelDirDiff.Pitch) >= 1.0f) { ElevationDirection = 1.0f; }
+	else { ElevationDirection = -1.0f; }
 	//Adjusts barrel elevation acording to where crosshair is pointing
 	Barrel->AimBarrel(ElevationDirection);
+	//Acquires and stores the current turret direction
+	auto CurTurretDirection = Turret->GetForwardVector().Rotation();
+	//Determines the direction the turret needs to move 1 = right, -1 = left
+	auto TurretDirDiff = CurAimDirection - CurTurretDirection;
+	if ((TurretDirDiff.Yaw) >= 1.0f) { TurnDirection = 1.0f; }
+	else { TurnDirection = -1.0f; }
+	//Adjusts turret rotation acording to where crosshair is pointing
+	Turret->AimTurret(TurnDirection);
 }
