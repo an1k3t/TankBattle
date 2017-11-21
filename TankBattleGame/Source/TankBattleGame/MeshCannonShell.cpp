@@ -24,7 +24,6 @@ void AMeshCannonShell::Tick(float DeltaTime)
 
 void AMeshCannonShell::LaunchShell(float ShotForce)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Cannon Fired!"));
 	CannonShellManager->SetVelocityInLocalSpace(FVector::ForwardVector * ShotForce);
 	CannonShellManager->Activate();
 }

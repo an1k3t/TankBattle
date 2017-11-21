@@ -6,6 +6,7 @@
 #include "MeshBarrel.h"
 #include "MeshTurret.h"
 #include "MeshCannonShell.h"
+#include "MeshTankTracks.h"
 
 // Sets default values
 ATankPawn::ATankPawn()
@@ -28,18 +29,24 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-
-//Delegates the act of seeting the turret ref to TankAimingComponet
+//Delegates the act of seting the turret ref to TankAimingComponet
 void ATankPawn::SetTurret(UMeshTurret *TurretToSet)
 {
 	TankAimingComponent->SetTurret(TurretToSet);
 }
 
-//Delegates the act of seeting the barrel ref to TankAimingComponet
+//Delegates the act of seting the barrel ref to TankAimingComponet
 void ATankPawn::SetBarrel(UMeshBarrel *BarrelToSet)
 {
 	TankAimingComponent->SetBarrel(BarrelToSet);
 	Barrel = BarrelToSet;
+}
+
+//Sets the tracks ref 
+void ATankPawn::SetTracks(UMeshTankTracks *LTrackToSet, UMeshTankTracks *RTrackToSet)
+{
+	LTrack = LTrackToSet;
+	RTrack = RTrackToSet;
 }
 
 //Delegates the management of aiming and firing the barrel to the TankAimingComponent class
@@ -52,7 +59,7 @@ void ATankPawn::SetAimInfo(FVector AimInfo)
 void ATankPawn::ShootCannon()
 {
 	//Fires the shell
-	bReloaded = (FPlatformTime::Seconds() - LastShotTime) > ReloadTime;
+	bReloaded = (GetWorld()->GetTimeSeconds() - LastShotTime) > ReloadTime;
 	if (bReloaded)
 	{
 		//Sets the starting location of the projectile
@@ -64,7 +71,7 @@ void ATankPawn::ShootCannon()
 		//Fires Shell
 		Shell->LaunchShell(ShotForce);
 		//Updates LastShotTime
-		LastShotTime = FPlatformTime::Seconds();
+		LastShotTime = GetWorld()->GetTimeSeconds();
 		//Plays Sound Effect
 
 	}
