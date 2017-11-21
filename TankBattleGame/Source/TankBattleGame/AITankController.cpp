@@ -12,6 +12,8 @@ void AAITankController::BeginPlay()
 void AAITankController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	SendAimLoc();
+
 }
 
 ATankPawn *AAITankController::GetControlledTank() const
@@ -27,6 +29,8 @@ ATankPawn *AAITankController::GetPlayerTank() const
 
 void AAITankController::SendAimLoc()
 {
-	//Sends location info of where the AI is aiming to TankPawn(the player)
+	//Sends location info of where the AI is aiming(the player) to TankPawn
 	GetControlledTank()->SetAimInfo(GetPlayerTank()->GetActorLocation());
+	//Fires cannon 
+	GetControlledTank()->ShootCannon();
 }

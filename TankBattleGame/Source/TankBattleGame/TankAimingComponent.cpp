@@ -38,7 +38,7 @@ void UTankAimingComponent::SetTurret(UMeshTurret *TurretToSet)
 }
 
 //Calculates aiming direction & projectile path
-void UTankAimingComponent::CalcProjectile(FVector AimLocation)
+void UTankAimingComponent::CalcProjectile(FVector AimLocation, float ShotForce)
 {
 	//Sets the starting point of the projectile
 	ShotStartLoc = Barrel->GetSocketLocation(FName("BarrelEnd"));

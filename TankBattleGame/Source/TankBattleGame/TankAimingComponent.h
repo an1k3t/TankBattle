@@ -30,10 +30,9 @@ public:
 	//Sets the turret pointer
 	void SetTurret(UMeshTurret *TurretToSet);
 	//Calculates projectile path
-	void CalcProjectile(FVector);
+	void CalcProjectile(FVector, float);
 private:
 	FVector CurShotVelocity;
-	float ShotForce = 10000;
 	FVector ShotStartLoc;
 	float ElevationDirection;
 	float TurnDirection;

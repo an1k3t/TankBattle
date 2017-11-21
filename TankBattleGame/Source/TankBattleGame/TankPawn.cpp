@@ -1,9 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "TankPawn.h"
+#include "GameFramework/Actor.h"
 #include "TankAimingComponent.h"
 #include "MeshBarrel.h"
 #include "MeshTurret.h"
+#include "MeshCannonShell.h"
 
 // Sets default values
 ATankPawn::ATankPawn()
@@ -37,10 +39,33 @@ void ATankPawn::SetTurret(UMeshTurret *TurretToSet)
 void ATankPawn::SetBarrel(UMeshBarrel *BarrelToSet)
 {
 	TankAimingComponent->SetBarrel(BarrelToSet);
+	Barrel = BarrelToSet;
 }
 
 //Delegates the management of aiming and firing the barrel to the TankAimingComponent class
 void ATankPawn::SetAimInfo(FVector AimInfo)
 {
-	TankAimingComponent->CalcProjectile(AimInfo);
+	TankAimingComponent->CalcProjectile(AimInfo, ShotForce);
+}
+
+//Shoots Cannon
+void ATankPawn::ShootCannon()
+{
+	//Fires the shell
+	bReloaded = (FPlatformTime::Seconds() - LastShotTime) > ReloadTime;
+	if (bReloaded)
+	{
+		//Sets the starting location of the projectile
+		ShotStartLoc = Barrel->GetSocketLocation(FName("BarrelEnd"));
+		//Sets the starting rotation of the projectile
+		ShotStartRot = Barrel->GetSocketRotation(FName("BarrelEnd"));
+		//Spawns Projectile at end of barrel
+		auto Shell = GetWorld()->SpawnActor<AMeshCannonShell>(CannonShellBP, ShotStartLoc, ShotStartRot);
+		//Fires Shell
+		Shell->LaunchShell(ShotForce);
+		//Updates LastShotTime
+		LastShotTime = FPlatformTime::Seconds();
+		//Plays Sound Effect
+
+	}
 }

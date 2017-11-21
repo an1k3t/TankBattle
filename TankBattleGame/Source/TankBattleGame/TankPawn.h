@@ -9,6 +9,7 @@
 class UTankAimingComponent;
 class UMeshBarrel;
 class UMeshTurret;
+class AMeshCannonShell;
 
 UCLASS()
 class TANKBATTLEGAME_API ATankPawn : public APawn
@@ -28,8 +29,23 @@ public:
 	//Sets the barrel reference, via TankAimingComponent
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrel(UMeshBarrel *BarrelToSet);
+	//Send Aim Info to TankAimingComponent
 	void SetAimInfo(FVector);
+	//Shoots Cannon
+	UFUNCTION(BlueprintCallable)
+		void ShootCannon();
+	//Creates a property in the Pawn BP to ref the projectile BP
+	UPROPERTY(EditAnywhere, Category = Setup)
+		TSubclassOf<AMeshCannonShell> CannonShellBP;
 private:
 	//Pointers
 	UTankAimingComponent *TankAimingComponent = nullptr;
+	UMeshBarrel *Barrel = nullptr;
+	//Variables
+	FVector ShotStartLoc;
+	FRotator ShotStartRot;
+	float ShotForce = 10000;
+	float ReloadTime = 2;
+	double LastShotTime = 0.0;
+	bool bReloaded;
 };
