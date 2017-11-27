@@ -51,7 +51,7 @@ private:
 	FVector ShotStartLoc;
 	FRotator ShotStartRot;
 	float ShotForce = 10000;
-	float ReloadTime = 1.65f;
+	float ReloadTime = 0.1f;
 	float LastShotTime = 0.0f;
 	bool bReloaded;
 };
